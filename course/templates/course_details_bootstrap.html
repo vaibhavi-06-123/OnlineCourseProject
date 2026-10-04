@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,33 +17,54 @@
 
 <div class="container mt-5">
 
-    <h1 class="mb-4">{{ course.name }}</h1>
+    <div class="card shadow-sm">
 
-    <p class="lead">
-        {{ course.description }}
-    </p>
+        <div class="card-body">
 
-    <h2 class="mb-3">Lessons</h2>
+            <h1 class="mb-4">{{ course.name }}</h1>
 
-    <div class="list-group">
+            <p class="lead">
+                {{ course.description }}
+            </p>
 
-        {% for lesson in course.lessons.all %}
+            <hr>
 
-            <div class="list-group-item mb-2">
-                <h5 class="mb-1">{{ lesson.title }}</h5>
+            <h2 class="mb-3">Lessons</h2>
 
-                <p class="mb-1">
-                    {{ lesson.content }}
-                </p>
+            <div class="list-group mb-4">
+
+                {% for lesson in course.lessons.all %}
+
+                    <div class="list-group-item">
+
+                        <h5 class="mb-2">
+                            {{ forloop.counter }}. {{ lesson.title }}
+                        </h5>
+
+                        <p class="mb-1">
+                            {{ lesson.content }}
+                        </p>
+
+                    </div>
+
+                {% empty %}
+
+                    <div class="alert alert-info">
+                        No lessons available for this course.
+                    </div>
+
+                {% endfor %}
+
             </div>
 
-        {% empty %}
+            <a
+                href="{% url 'exam' course.id %}"
+                class="btn btn-primary"
+            >
+                Start Mock Exam
+            </a>
 
-            <div class="alert alert-info">
-                No lessons available for this course.
-            </div>
-
-        {% endfor %}
+        </div>
 
     </div>
 

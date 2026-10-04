@@ -1,4 +1,8 @@
+
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+
 from .models import Course, Question, Submission
 
 
@@ -12,6 +16,7 @@ def course_details(request, course_id):
     )
 
 
+@login_required
 def exam(request, course_id):
     course = get_object_or_404(Course, id=course_id)
 
@@ -22,8 +27,11 @@ def exam(request, course_id):
     )
 
 
+@login_required
+@require_POST
 def submit(request, course_id):
     course = get_object_or_404(Course, id=course_id)
+
     questions = Question.objects.filter(course=course)
 
     score = 0
@@ -58,6 +66,7 @@ def submit(request, course_id):
     )
 
 
+@login_required
 def show_exam_result(request, course_id, submission_id):
     course = get_object_or_404(Course, id=course_id)
 
