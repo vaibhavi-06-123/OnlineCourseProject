@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from course import views
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 
@@ -24,7 +25,7 @@ urlpatterns = [
     ),
 
     path(
-        'course/<int:course_id>/result/',
+        'course/<int:course_id>/result/<int:submission_id>/',
         views.show_exam_result,
         name='show_exam_result'
     ),

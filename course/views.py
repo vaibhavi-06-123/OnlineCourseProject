@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Course, Question, Submission
 
 
@@ -51,23 +51,22 @@ def submit(request, course_id):
         total=total
     )
 
-    return render(
-        request,
-        'course/exam_result.html',
-        {
-            'course': course,
-            'submission': submission
-        }
+    return redirect(
+        'show_exam_result',
+        course_id=course.id,
+        submission_id=submission.id
     )
 
 
-def show_exam_result(request, course_id):
+def show_exam_result(request, course_id, submission_id):
     course = get_object_or_404(Course, id=course_id)
 
-    submission = Submission.objects.filter(
+    submission = get_object_or_404(
+        Submission,
+        id=submission_id,
         user=request.user,
         course=course
-    ).order_by('-submitted_at').first()
+    )
 
     return render(
         request,
